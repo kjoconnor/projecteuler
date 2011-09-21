@@ -26,28 +26,38 @@ function reduceTriangle($t) {
 	// final summation.
 
 	$row = sizeof($t) - 1;
-	print_r($t);
+	// print_r($t);
 	while(sizeof($t) > 1) {
+
+		// print "Working on row " . $row . "\n";
+		$rowsize = sizeof($t[$row]);
 		
-		for($i = 0; $i <= sizeof($t[$row]); $i++) {
-			print $row . ", " . $i . "\n";
-			if(!isset($t[$row - 1][$i]))
+		for($i = 0; $i <= $rowsize; $i++) {
+			// print "\$i: " . $i . "\n";
+			if(!isset($t[$row - 1][$i])) {
+				// print "Top row detected, continuing.\n";
 				continue;
+			}
 			if($t[$row][$i] > $t[$row][$i + 1]) {
+				// print "Offset " . $i . " with a value of " . $t[$row][$i] . " was higher than right child, " . $i . " - " . $t[$row][$i + 1] . "\n";
 				$t[$row - 1][$i] += $t[$row][$i];
 			} else {
+				// print "Offset " . $i . " with a value of " . $t[$row][$i] . " was lower than right child, " . $i . " - " . $t[$row][$i + 1] . "\n";
 				$t[$row - 1][$i] += $t[$row][$i + 1];
 			}
 
+			// print "Unsetting " . $i . ", " . $t[$row][$i] . "\n";
 			unset($t[$row][$i]);
 		}
 
-		if(sizeof($t[$row] === 0))
+		if(sizeof($t[$row] === 0)) {
+			// print "Row " . $row . " is empty, unsetting.\n";
 			unset($t[$row]);
+		}
 		
 		$row--;
-		print_r($t);
-		print "-----------------\n";
+		// print_r($t);
+		// print "-----------------\n";
 	}
 
 	return $t;
